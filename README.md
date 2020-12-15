@@ -134,21 +134,21 @@ No anagrams are generated.
 Anagram the string `tomservocrow`.  Do not use words shorter than
 3 letters or longer than 8 letters.
 
-    wordplay persiangulf -ld3m10 -f /usr/dict/words
+    wordplay persiangulf -ld3m10 -f /usr/share/dict/words
 
 Print the candidate words for the string `persiangulf`.
 Print anagrams containing up to 3 words, without considering any
-words longer than 10 characters.  Usr the file `/usr/dict/words`
+words longer than 10 characters.  Usr the file `/usr/share/dict/words`
 rather than `words721.txt`.
 
-    wordplay soylentgreen -n3w stolen -f w2
-    wordplay soylentgreen -n3 -w stolen -f w2
-    wordplay soylentgreen -n3f w2 -w stolen
-    wordplay soylentgreen -n3 -f w2 -w stolen
+    wordplay soylentgreen -n3w stolen -f /usr/share/dict/words
+    wordplay soylentgreen -n3 -w stolen -f /usr/share/dict/words
+    wordplay soylentgreen -n3f /usr/share/dict/words -w stolen
+    wordplay soylentgreen -n3 -f /usr/share/dict/words -w stolen
 
 Print anagrams of `soylentgreen` containing the word `stolen` and
-use the file `w2` as the wordlist file.  Discard candidate words
-shorter than 3 characters.
+use the file `/usr/share/dict/words` as the wordlist file.  Discard
+candidate words shorter than 3 characters.
 
     wordplay university -slx
 
@@ -169,11 +169,10 @@ numbers and header.
 Anagram `trymeout` as usual, but in case vowel-free strings are in
 the wordlist, consider them as possible candidate words.
 
-    cat wordlist1 wordlist2 wordlist3 | sort -u | wordplay trymeout -f -
+    cat words721.txt /usr/share/dict/words | sort -u | wordplay trymeout -f -
 
-Anagram `trymeout` and read the wordlist from stdin, so that, in
-this case, under UNIX, the three wordlists `wordlist1`, `wordlist2`,
-and `wordlist3` will be concatenated and piped into wordplay as
+Anagram `trymeout` and read the wordlist from stdin, so that, in this case,
+under UNIX, the wordlists will be concatenated and piped into wordplay as
 the wordlist.  The `sort -u` is there to remove duplicate words
 from the combined wordlist. (UNIX only!)
 

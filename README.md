@@ -1,0 +1,225 @@
+# Wordplay Version 7.22     Evans A Criswell   1996-03-20
+
+Wordplay is an anagram finder.  What is an anagram?  Well, let's turn to
+Merriam-Webster's Collegiate Dictionary, Tenth Edition:
+
+- a word or phrase made by transposing the letters of another word or phrase
+
+Each letter in the anagram must appear in the same frequency as in the
+original string.
+
+For example, the letters in the word "stop" can be rearranged to spell
+"tops" or "pots" or "sotp".  "sotp" is not a word and is not of interest
+when generating anagrams.  "stop" has four letters, so there are 24 ways
+to rearrange its letters.  However, very few of the rearrangements actually
+spell words.
+
+Wordplay, by using a list of words, takes a specified string of letters and
+uses the list of words to find anagrams of the string.
+
+By the way, "Wordplay" anagrams to "Rowdy Pal", and the program really can
+live up to that particular anagram.  I have been able to come up with
+anagrams of most of my coworkers' names that are humorous, descriptive,
+satirical, or, occasionally, quite vulgar.
+
+## Compiling the program
+
+Under UNIX, the program should be compiled with an ANSI C compiler.  Never
+fear; it's easy.  If you have the GNU C compiler, use it as follows:
+
+    gcc -O -o wordplay wordplay.c
+
+If you do not have `gcc`, or for whatever reason, wish to use your machine's
+native compiler, use `cc` in place of `gcc`, as follows:
+
+    cc -O -o wordplay wordplay.c
+
+This assumes your native `cc` is an ANSI compiler.  If not, it WILL NOT WORK.
+If your compiler does not support the optimization option `-O`, leave it out.
+
+Feel free to use optimization options that your particular compiler offers.
+They do make a significant difference with some compilers.
+
+## Usage
+
+To use the program, simply invoke the program with a combination of options
+that make sense together.  Here is the format:
+
+    wordplay string [-slxavnXmXdX] [-w word] [-f wordfile]
+
+where the capital X's represent integers.  Please see the examples below
+the option descriptions.  The square brackets are not part of the command
+line.  They simply are used to show that the options they surround are
+optional.
+
+- `wordplay`:          This is the name of the executable (under UNIX) after
+		       you have compiled the program.  Under other
+		       environments, method of invocation may vary.
+
+- `string`:            This should be seen to the program AS A SINGLE
+		       ARGUMENT.  If you feel you must put spaces in the
+		       string, under UNIX, you will have to put backslashes
+		       in front of the spaces or just put the entire string
+		       in double quotes.  Just leave the spaces out because
+		       the program throws them out anyway.  Under environments
+		       other than UNIX, you may be forced to omit them anyway,
+		       like under MS-DOS or OS/2 .
+
+## Other options
+
+- `s`: Silent operation.  If this option is used, the header and line
+       numbers are not printed.  This is useful if you want the output to
+       contain only the anagrams.  Use this option with the l (and x) option
+       to generate a wordlist which can be piped or redirected.
+       This option does not suppress error messages that are printed to
+       stderr.  Finding zero anagrams is not an error.
+
+- `l`: Print list of candidate words before anagramming.  This is the list of
+       words that can be spelled with the letters from the specified string,
+       with no letters being used more often that they appear in the input
+       string.
+
+- `x`: Do not perform anagramming.  Use with l if you just want the
+       candidate word list without anagrams.
+
+- `a`: Allow anagrams containing two or more occurrences of a word.
+
+- `v`: Consider strings with no vowels as candidate words and do not give
+       up when there are no vowels remaining after extractions.
+
+- `m`: Limit candidate word length to a maximum number of letters.
+       Follow by an integer.  m12 means limit words to 12 letters.
+       m5 means limit them to 5 letters.
+
+- `n`: Limit candidate word length to a minimum number of letters.
+       Follow by an integer.  n2 means limit words to 2 letters.
+       n11 means limit them to 11 letters.
+
+- `d`: Limit number of words in anagrams to a maximum number.
+       Follow by an integer.  d3 means no anagrams should contain more
+       than 3 words.  d12 means limit anagrams to 12 words.  This is
+       currently the option that I recommend to limit output, since
+       an optimization has been added to speed execution in some cases
+       when this option is used.
+
+- `w`: Specify a word which should appear in all anagrams.  This is useful
+       if you already have a word in mind that you want in the anagrams.
+       This option should be specified at the end of the command, followed
+       by a space and the word to use.
+
+- `f`: Specify which word list to use.  See example!  This option should
+       be specified at the end of the command, followed by a space and the
+       alternate wordfile name.  This is useful if you have other word lists
+       to try or if you are interested in making your own customized word
+       list.
+
+- `-`: Use a hyphen as the filename if the wordlist should be read from stdin.
+
+
+## Examples of usage
+
+    wordplay persiangulf
+
+Anagram the string "persiangulf" .
+
+    wordplay anagramming -lx
+
+Print the list of words from the wordlist that can be spelled by using
+the letters from the word "anagramming".  A letter may not be used more
+often than the number of times it occurs in the word "anagramming".
+No anagrams are generated.
+
+    wordplay tomservocrow -n3m8
+
+Anagram the string `tomservocrow`.  Do not use words shorter than
+3 letters or longer than 8 letters.
+
+    wordplay persiangulf -ld3m10 -f /usr/dict/words
+
+Print the candidate words for the string `persiangulf`.
+Print anagrams containing up to 3 words, without considering any
+words longer than 10 characters.  Usr the file `/usr/dict/words`
+rather than `words721.txt`.
+
+    wordplay soylentgreen -n3w stolen -f w2
+    wordplay soylentgreen -n3 -w stolen -f w2
+    wordplay soylentgreen -n3f w2 -w stolen
+    wordplay soylentgreen -n3 -f w2 -w stolen
+
+Print anagrams of `soylentgreen` containing the word `stolen` and
+use the file `w2` as the wordlist file.  Discard candidate words
+shorter than 3 characters.
+
+    wordplay university -slx
+
+Print the candidate word list for the string `university`.  The
+output will consist of just the words.  This output is more useful
+for redirecting to a file or for piping to another program.
+
+    wordplay trymeout -s
+
+Anagram the string `trymeout` and print the anagrams with no line
+numbers.  The header will not be printed.  This is useful for piping
+the output to another process (or saving it to a file to be used
+by another program) without having to parse the output to remove the
+numbers and header.
+
+    wordplay trymeout -v
+
+Anagram `trymeout` as usual, but in case vowel-free strings are in
+the wordlist, consider them as possible candidate words.
+
+    cat wordlist1 wordlist2 wordlist3 | sort -u | wordplay trymeout -f -
+
+Anagram `trymeout` and read the wordlist from stdin, so that, in
+this case, under UNIX, the three wordlists `wordlist1`, `wordlist2`,
+and `wordlist3` will be concatenated and piped into wordplay as
+the wordlist.  The `sort -u` is there to remove duplicate words
+from the combined wordlist. (UNIX only!)
+
+## Using the "f" option to specify a word file
+
+If the option specifiers are combined, as in `an7m7d5f` or `d3n5f`, the `f`
+should come last, followed by a space and the word list file, as shown in
+example number 4 above.
+
+The `w` option is used in the same manner.
+
+## Notes
+
+Limit the number of words to consider, if desired, using `n` and `m` options,
+or better yet, use the `d` option to limit depth, when anagramming certain
+time-consuming strings.  The program is currently optimized to speed execution
+in some cases when the `d` option is used.
+
+### Plurals and past tenses
+
+The `words721.txt` does not contain plural forms of nouns obtained by adding "s"
+or "es".  It usually does not contain verb forms obtained by adding "ed" or
+"d", and it does not contain many adjective forms obtained by adding "y".
+If the string you are anagramming contains an "s", try anagramming the
+string without the "s" and add an "s" in the output.  This trick may also
+work effectively with "d" and "y".
+
+### Apostrophes, hyphens, and other non-alphabetics
+
+All non-alphabetic characters in a word are preserved, INCLUDING BLANKS!!!
+If you have a dictionary with words like "DON'T", "ONE-EYED", and
+"ATOMIC NUMBER", each will be correctly processed.  Note that words
+like "ATOMIC NUMBER" or "KNOW IT ALL" in your word list will be considered
+as a single word by the program!  If "ATOMIC" and "NUMBER" appear as
+single words also, "ATOMIC NUMBER" will appear twice in the output, once
+as a one-word anagram and once as a two-word anagram.  This is not a flaw
+in the program.  The `words721.txt` word list does not contain "double words",
+but other dictionaries, like web2/web2a, do contain such things.
+
+### The "words721.txt" wordfile
+
+If no wordfile is specified, `words721.txt` is used.  It is highly
+recommended that the `words721.txt` file distributed with the program be
+used, since many nonsense two and three-letter combinations that are not
+words have been eliminated.  This makes the quality of the output slightly
+better and speeds execution of the program a slight bit.  Any word list may
+be used, as long as there is one word per line.  Feel free to create your
+own custom word list and use it instead.  The word list does not have to be
+sorted in any particular way.

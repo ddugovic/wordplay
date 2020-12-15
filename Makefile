@@ -3,8 +3,10 @@
 
 CC=gcc
 
+.PHONY : test clean
+
 wordplay : wordplay.c
-	$(CC) -O -o wordplay wordplay.c
+	$(CC) -O2 -o wordplay wordplay.c
 
 test :
 	./wordplay persiangulf && \
@@ -19,4 +21,7 @@ test :
 	./wordplay trymeout -s && \
 	./wordplay trymeout -v && \
 	cat words721.txt /usr/share/dict/words | sort -u | ./wordplay trymeout -f -
+
+clean :
+	rm wordplay
 

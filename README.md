@@ -120,13 +120,13 @@ optional.
 
     wordplay persiangulf
 
-Anagram the string "persiangulf" .
+Anagram the string `persiangulf`.
 
     wordplay anagramming -lx
 
 Print the list of words from the wordlist that can be spelled by using
-the letters from the word "anagramming".  A letter may not be used more
-often than the number of times it occurs in the word "anagramming".
+the letters from the word `anagramming`.  A letter may not be used more
+often than the number of times it occurs in the word `anagramming`.
 No anagrams are generated.
 
     wordplay tomservocrow -n3m8
@@ -191,18 +191,18 @@ or better yet, use the `d` option to limit depth, when anagramming certain
 time-consuming strings.  The program is currently optimized to speed execution
 in some cases when the `d` option is used.
 
-### Plurals and past tenses
+### Inflected forms
 
 The `words721.txt` does not contain plural forms of nouns obtained by adding "s"
 or "es".  It usually does not contain verb forms obtained by adding "ed" or
 "d", and it does not contain many adjective forms obtained by adding "y".
 If the string you are anagramming contains an "s", try anagramming the
-string without the "s" and add an "s" in the output.  This trick may also
-work effectively with "d" and "y".
+string without the "s" to see if a singular form exists.  This trick may also
+work effectively with "d" (past form) and "y" (inclined form).
 
 ### Apostrophes, hyphens, and other non-alphabetics
 
-All non-alphabetic characters in a word are preserved, INCLUDING BLANKS!!!
+All non-alphabetic characters in a word are preserved, INCLUDING SPACES!!!
 If you have a dictionary with words like "DON'T", "ONE-EYED", and
 "ATOMIC NUMBER", each will be correctly processed.  Note that words
 like "ATOMIC NUMBER" or "KNOW IT ALL" in your word list will be considered
@@ -218,7 +218,9 @@ If no wordfile is specified, `words721.txt` is used.  It is highly
 recommended that the `words721.txt` file distributed with the program be
 used, since many nonsense two and three-letter combinations that are not
 words have been eliminated.  This makes the quality of the output slightly
-better and speeds execution of the program a slight bit.  Any word list may
-be used, as long as there is one word per line.  Feel free to create your
-own custom word list and use it instead.  The word list does not have to be
-sorted in any particular way.
+better and speeds execution of the program a slight bit.
+
+Any word list may be used, as long as there is one word per line.  Feel
+free to create your own custom word list and use it instead.  The word
+list does not have to be sorted in any particular way.
+
